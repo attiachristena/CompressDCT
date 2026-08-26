@@ -2,6 +2,11 @@ import numpy as np
 import scipy.fft as scipy_fft
 from PIL import Image
 
+def import_image(path):
+    """ Apre l'immagine, la converte in scala di grigi e restituisce la matrice. """
+    image = Image.open(path).convert('L')
+    return np.array(image)
+
 def compress_image(img_matrix, F, d):
     """ Compresses an image using block-wise 2D Discrete Cosine Transform (DCT) and frequency filtering.
     Parameters
@@ -88,18 +93,3 @@ def plot_results(cropped, compressed):
 
     plt.tight_layout()
     plt.show()
-
-if __name__ == "__main__":
-    # Load the image and convert it to grayscale
-    img = Image.open('/Users/christenaattia/Desktop/Compress_DCT/images/80x80.bmp').convert('L')
-    img_matrix = np.array(img)
-    
-    # Set block size F and threshold d
-    F = 8
-    d = 14
-
-    # Compress the image
-    cropped, compressed = compress_image(img_matrix, F, d)
-
-    # Plot the results
-    plot_results(cropped, compressed)
