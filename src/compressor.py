@@ -66,30 +66,7 @@ def compress_image(img_matrix, F, d):
 
     return cropped_matrix, compressed_matrix.astype(np.uint8)
 
-def plot_results(cropped, compressed):
-    """ Plots the original cropped image and the compressed image side by side for comparison.
-    Parameters
-    ----------
-    cropped : numpy.ndarray
-        Cropped original image matrix.
-    compressed : numpy.ndarray
-        Compressed image matrix.
-    """
-    import matplotlib.pyplot as plt
-
-    plt.figure(figsize=(10, 5))
-
-    # Display the cropped original image
-    plt.subplot(1, 2, 1)
-    plt.imshow(cropped, cmap='gray', vmin=0, vmax=255)
-    plt.title('Cropped Original Image')
-    plt.axis('off')
-
-    # Display the compressed image
-    plt.subplot(1, 2, 2)
-    plt.imshow(compressed, cmap='gray', vmin=0, vmax=255)
-    plt.title('Compressed Image')
-    plt.axis('off')
-
-    plt.tight_layout()
-    plt.show()
+def save_compressed_image(compressed, output_path):
+    """Salva l'immagine compressa in formato PNG."""
+    image = Image.fromarray(compressed)
+    image.save(output_path, format='PNG')

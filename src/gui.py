@@ -1,9 +1,10 @@
 import os
+import time
 import customtkinter as ctk 
 from tkinter import filedialog, messagebox
 
 # Importiamo dal nostro file compressor.py
-from compressor import import_image, compress_image, plot_results
+from compressor import import_image, compress_image, save_compressed_image
 
 # Impostazioni globali del tema moderno
 ctk.set_appearance_mode("Dark")  # Opzioni: "System", "Dark", "Light"
@@ -94,7 +95,7 @@ class ModernCompressorApp(ctk.CTk):
             messagebox.showerror("Errore di Inserimento", "I valori F e d devono essere numeri interi.")
             return
 
-        # Validazione matematica richiesta dalla traccia
+        # Controllo dei valori di F e d
         if F <= 0:
             messagebox.showerror("Errore", "L'ampiezza F deve essere maggiore di 0.")
             return
@@ -111,11 +112,37 @@ class ModernCompressorApp(ctk.CTk):
             self.update()
 
             img_matrix = import_image(self.file_path)
+            start_time = time.perf_counter()
+        
             cropped, compressed = compress_image(img_matrix, F, d)
             
-            self.btn_start.configure(text="ELABORA E COMPRIMI", state="normal")
+            end_time = time.perf_counter()
+            tempo_ms = (end_time - start_time) * 1000
             
-            plot_results(cropped, compressed)
+            # Stampa i dati pronti per la tabella LaTeX nel terminale
+            print(f" Blocco F={F}x{F} | d={d} | Tempo esecuzione: {tempo_ms:.2f} ms")
+
+            # Crea la cartella "compressed" se non esiste
+            output_dir = "compressed"
+            os.makedirs(output_dir, exist_ok=True)
+
+            # Recupera il nome dell'immagine originale
+            filename = os.path.basename(self.file_path)
+            name, ext = os.path.splitext(filename)
+
+            # Nome dell'immagine compressa
+            output_path = os.path.join(output_dir, f"{name}_F{F}_d{d}.png")
+
+            # Salva l'immagine compressa
+            save_compressed_image(compressed, output_path)
+            
+
+            self.btn_start.configure(text="ELABORA E COMPRIMI", state="normal")
+
+            messagebox.showinfo(
+                "Compressione completata",
+                f"Immagine compressa salvata in:\n{output_path}"
+            )
 
         except Exception as e:
             self.btn_start.configure(text="ELABORA E COMPRIMI", state="normal")

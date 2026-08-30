@@ -92,7 +92,7 @@ if __name__ == "__main__":
     plt.legend()
     
     # Save the plot and display it
-    plt.savefig('benchmark_corretto.png', dpi=300)
+    plt.savefig('benchmark.png', dpi=300)
     plt.show()
 
 
