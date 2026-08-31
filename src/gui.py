@@ -4,7 +4,7 @@ import customtkinter as ctk
 from tkinter import filedialog, messagebox
 
 # Importiamo dal nostro file compressor.py
-from compressor import import_image, compress_image, save_compressed_image
+from compressor import import_image, compress_image, save_compressed_image, plot_results
 
 # Impostazioni globali del tema moderno
 ctk.set_appearance_mode("Dark")  # Opzioni: "System", "Dark", "Light"
@@ -69,6 +69,7 @@ class ModernCompressorApp(ctk.CTk):
                                        fg_color="#2FA572", hover_color="#1D7850",
                                        command=self.avvia_elaborazione)
         self.btn_start.pack(pady=25, padx=20, fill="x")
+
 
     def seleziona_file(self):
         """ Apre la finestra di dialogo per il file e aggiorna la UI """
@@ -138,6 +139,8 @@ class ModernCompressorApp(ctk.CTk):
             
 
             self.btn_start.configure(text="ELABORA E COMPRIMI", state="normal")
+
+            plot_results(cropped, compressed)
 
             messagebox.showinfo(
                 "Compressione completata",

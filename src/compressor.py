@@ -66,6 +66,24 @@ def compress_image(img_matrix, F, d):
 
     return cropped_matrix, compressed_matrix.astype(np.uint8)
 
+import matplotlib.pyplot as plt
+
+def plot_results(original, compressed):
+    plt.figure(figsize=(10, 5))
+    
+    plt.subplot(1, 2, 1)
+    plt.imshow(original, cmap='gray')
+    plt.title("Immagine Originale")
+    plt.axis('off')
+
+    plt.subplot(1, 2, 2)
+    plt.imshow(compressed, cmap='gray')
+    plt.title("Immagine Compressa")
+    plt.axis('off')
+
+    plt.tight_layout()
+    plt.show()
+
 def save_compressed_image(compressed, output_path):
     """Salva l'immagine compressa in formato PNG."""
     image = Image.fromarray(compressed)
